@@ -41,16 +41,19 @@ void set_fail_message(char *msg, const char *func_name, int line);
         }                                                      \
     } while (0)
 
-//#define TEST_ASSERT_EQUAL(message, expected, actual)                            \
-//    do                                                                     \
-//    {                                                                      \
-//        if (!((expected) == (actual)))                                     \
-//        {                                                                  \
-//            fprintf(stderr, "\t[FAILED] %s\n%s\n", __FUNCTION__, message); \
-//            print_generic("\t\texpected : ", expected);                    \
-//            print_generic("\t\tactual   : ", actual);                      \
-//            __global_message = message;                                    \
-//        }                                                                  \
-//    } while (0)
+#define __TEST_EQUALITY(message, op, expected, actual, func, line)                                                       \
+    do                                                                                                                   \
+    {                                                                                                                    \
+        if ((expected) != (actual))                                                                                      \
+        {                                                                                                                \
+            set_fail_message(message, func, line);                                                                       \
+            fprintf(stderr, "\t\texpected %s = " op "\n\t\tactual %s = " op "\n", #expected, expected, #actual, actual); \
+        }                                                                                                                \
+    } while (0)
+
+#define TEST_EQUAL_INT(expected, actual, message) __TEST_EQUALITY(message, "%d", expected, actual, __FUNCTION__, __LINE__)
+#define TEST_EQUAL_FLOAT(expected, actual, message) __TEST_EQUALITY(message, "%f", expected, actual, __FUNCTION__, __LINE__)
+#define TEST_EQUAL_UINT(expected, actual, message) __TEST_EQUALITY(message, "%d", expected, actual, __FUNCTION__, __LINE__)
+#define TEST_EQUAL_CHAR(expected, actual, message) __TEST_EQUALITY(message, "%c", expected, actual, __FUNCTION__, __LINE__)
 
 #endif // __UNIT_TEST_H__

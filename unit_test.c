@@ -33,7 +33,7 @@ void globals_list_add(void (*f)(void), char *func_name, int line)
 
 void global_run_all_tests(void)
 {
-    fprintf(stderr, YELLOW "[TESTING] Testing %d function%s\n" END_COL, __global_test_count, __global_test_count > 1 ? "s" : " ");
+    fprintf(stderr, YELLOW "----------: [STARTING] Testing %d function%s\n" END_COL, __global_test_count, __global_test_count > 1 ? "s" : " ");
     struct __function_list *cur;
     for (cur = __list_head; cur; cur = cur->_next)
     {
@@ -51,7 +51,7 @@ void global_run_all_tests(void)
         }
     }
 
-    fprintf(stderr, "----------:\n%d " GREEN "PASSED" END_COL ", %d " RED "FAILED\n" END_COL, __global_pass_test_count, __global_fail_test_count);
+    fprintf(stderr, YELLOW "----------:\n----------: " END_COL "%d " GREEN "PASSED" END_COL ", %d " RED "FAILED\n" END_COL, __global_pass_test_count, __global_fail_test_count);
 }
 
 void set_fail_message(char *msg, const char *func_name, int line)
@@ -62,7 +62,7 @@ void set_fail_message(char *msg, const char *func_name, int line)
         __global_fail_test_count++;
         fprintf(stderr, RED "----- FAIL" END_COL ": %s(%d)\n", func_name, line);
     }
-    fprintf(stderr, "\t(%d) -> %s\n", line, msg);
+    fprintf(stderr, "  (line %d) -> %s\n", line, msg);
 }
 
 #define print_generic(message, X) _Generic((X), float      \
@@ -71,9 +71,6 @@ void set_fail_message(char *msg, const char *func_name, int line)
                                            : print_double, \
                                              default       \
                                            : print_int)(message, X)
-
-void print_int(const char *msg, int x);
-void print_double(const char *msg, double x);
 
 void print_int(const char *msg, int x)
 {

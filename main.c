@@ -45,4 +45,11 @@ ADD_FUNCTION(test_AverageThreeBytes_should_AverageHighValues)
     TEST_ASSERT_TRUE("Average should be 84", 85 == AverageThreeBytes(0, 126, 126));
 }
 
+ADD_FUNCTION(test_EqualityMacro)
+{
+    TEST_EQUAL_INT(10, 10, "This should be true");
+    TEST_EQUAL_FLOAT(10.0f, 10.0, "This should be true");
+    TEST_EQUAL_CHAR('c', 'c', "This should be true");
+}
+
 RUN_ALL_TESTS();
