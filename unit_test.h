@@ -27,7 +27,7 @@ void set_fail_message(char *msg, const char *func_name, int line);
 
 #define ADD_FUNCTION(f)                    \
     static void f(void);                   \
-    INITIALIZER(__construct_f)             \
+    INITIALIZER(__construct_##f)             \
     {                                      \
         globals_list_add(f, #f, __LINE__); \
     }                                      \
