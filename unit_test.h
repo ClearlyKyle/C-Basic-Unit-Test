@@ -27,7 +27,7 @@ void set_fail_message(char *msg, const char *func_name, int line);
 
 #define ADD_FUNCTION(f)                    \
     static void f(void);                   \
-    INITIALIZER(__construct_##f)             \
+    INITIALIZER(__construct_##f)           \
     {                                      \
         globals_list_add(f, #f, __LINE__); \
     }                                      \
@@ -68,6 +68,7 @@ void set_fail_message(char *msg, const char *func_name, int line);
         }                                                                                                                \
     } while (0)
 
+#define TEST_EQUAL(expected, actual, message)       __TEST_EQUALITY(message, "%d", expected, actual, __FUNCTION__, __LINE__)
 #define TEST_EQUAL_INT(expected, actual, message)   __TEST_EQUALITY(message, "%d", expected, actual, __FUNCTION__, __LINE__)
 #define TEST_EQUAL_FLOAT(expected, actual, message) __TEST_EQUALITY(message, "%f", expected, actual, __FUNCTION__, __LINE__)
 #define TEST_EQUAL_UINT(expected, actual, message)  __TEST_EQUALITY(message, "%d", expected, actual, __FUNCTION__, __LINE__)
