@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 void globals_list_add(void (*f)(void), char *func_name, int line);
 void global_run_all_tests(void);
@@ -41,6 +42,7 @@ void set_fail_message(char *msg, const char *func_name, int line);
         }                                                      \
     } while (0)
 
+// might need to switch to real types here
 #define __TEST_EQUALITY(message, op, expected, actual, func, line)                                                       \
     do                                                                                                                   \
     {                                                                                                                    \
@@ -55,5 +57,8 @@ void set_fail_message(char *msg, const char *func_name, int line);
 #define TEST_EQUAL_FLOAT(expected, actual, message) __TEST_EQUALITY(message, "%f", expected, actual, __FUNCTION__, __LINE__)
 #define TEST_EQUAL_UINT(expected, actual, message) __TEST_EQUALITY(message, "%d", expected, actual, __FUNCTION__, __LINE__)
 #define TEST_EQUAL_CHAR(expected, actual, message) __TEST_EQUALITY(message, "%c", expected, actual, __FUNCTION__, __LINE__)
+
+#define TEST_EQUAL_HEX(expected, actual, message) __TEST_EQUALITY(message, "0x%x", expected, actual, __FUNCTION__, __LINE__)
+#define TEST_EQUAL_HEX8(expected, actual, message) __TEST_EQUALITY(message, "0x%x", (uint8_t)expected, (uint8_t)actual, __FUNCTION__, __LINE__)
 
 #endif // __UNIT_TEST_H__
