@@ -18,7 +18,7 @@ static struct __function_list
     char                   *__function_name;
     struct __function_list *_next;
     void (*f)(void);
-} *__list_head = NULL;
+};
 
 static char *__global_message         = NULL;
 static int   __global_test_count      = 0;
@@ -47,8 +47,8 @@ void global_run_all_tests(void)
         cur->f();
         if (__global_message != 0)
         {
-            // fprintf(stderr, RED "----- FAIL" END_COL ": %s(%d)\n", cur->__function_name, cur->_line);
-            // fprintf(stderr, "\t%s\n", __global_message);
+            fprintf(stderr, RED "----- FAIL" END_COL ": %s(%d)\n", cur->__function_name, cur->_line);
+            fprintf(stderr, "\t%s\n", __global_message);
         }
         else
         {
@@ -56,7 +56,7 @@ void global_run_all_tests(void)
             fprintf(stderr, GREEN "PASS -----" END_COL ": %s(%d)\n", cur->__function_name, cur->_line);
         }
     }
-
+    fprintf(stderr, YELLOW "----------: Testing Complete\n" END_COL);
     fprintf(stderr, YELLOW "----------:\n----------: " END_COL "%d " GREEN "PASSED" END_COL ", %d " RED "FAILED\n" END_COL, __global_pass_test_count, __global_fail_test_count);
 }
 

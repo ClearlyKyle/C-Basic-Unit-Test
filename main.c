@@ -52,4 +52,14 @@ ADD_FUNCTION(test_EqualityMacro)
     TEST_EQUAL_CHAR('c', 'c', "This should be true");
 }
 
+ADD_FUNCTION(test_EqualityHexValues)
+{
+    TEST_EQUAL_HEX(0x34, 52, "This should be true");
+    TEST_EQUAL_HEX(0x34, 0x34, "This should be true");
+
+    const uint16_t number1 = 0x563;
+
+    TEST_EQUAL_HEX8(0x56, number1, "This should be true");
+}
+
 RUN_ALL_TESTS();
