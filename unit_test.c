@@ -1,33 +1,39 @@
 #include "unit_test.h"
 
-#define RED "\e[31m"
-#define GREEN "\e[32m"
-#define YELLOW "\e[33m"
-#define WHITE "\e[1m"
-#define END_COL "\e[m"
+#if defined(_MSC_VER)
+#define ESCAPE_KEY "\033"
+#else
+#define ESCAPE_KEY "\e"
+#endif
+
+#define RED     ESCAPE_KEY "[31m"
+#define GREEN   ESCAPE_KEY "[32m"
+#define YELLOW  ESCAPE_KEY "[33m"
+#define WHITE   ESCAPE_KEY "[1m"
+#define END_COL ESCAPE_KEY "[m"
 
 static struct __function_list
 {
-    int _line;
-    char *__function_name;
+    int                     _line;
+    char                   *__function_name;
     struct __function_list *_next;
     void (*f)(void);
 } *__list_head = NULL;
 
-static char *__global_message = NULL;
-static int __global_test_count = 0;
-static int __global_pass_test_count = 0;
-static int __global_fail_test_count = 0;
+static char *__global_message         = NULL;
+static int   __global_test_count      = 0;
+static int   __global_pass_test_count = 0;
+static int   __global_fail_test_count = 0;
 
 /* add f to the linked list... */
 void globals_list_add(void (*f)(void), char *func_name, int line)
 {
     struct __function_list *link = (struct __function_list *)malloc(sizeof(struct __function_list));
-    link->_line = line;
-    link->__function_name = func_name;
-    link->f = f;
-    link->_next = __list_head;
-    __list_head = link;
+    link->_line                  = line;
+    link->__function_name        = func_name;
+    link->f                      = f;
+    link->_next                  = __list_head;
+    __list_head                  = link;
     __global_test_count++;
 }
 
